@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:
@@ -17,3 +18,17 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
+  fonts:
+    - family: SF-Pro-Rounded
+      fonts:
+        - asset: assets/fonts/SF-Pro-Rounded-Black.ttf
+        - asset: assets/fonts/SF-Pro-Rounded-Light.ttf
+        - asset: assets/fonts/SF-Pro-Rounded-Medium.ttf
+        - asset: assets/fonts/SF-Pro-Rounded-SemiBold.ttf
+        - asset: assets/fonts/SF-Pro-Rounded-Thin.ttf
+        - asset: assets/fonts/SF-Pro-Rounded-Regular.ttf
