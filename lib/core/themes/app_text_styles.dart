@@ -1,6 +1,6 @@
-import 'package:event_management_system/core/constants/app_constants.dart';
-import 'package:event_management_system/core/responsive/size_extension.dart';
-import 'package:event_management_system/core/themes/app_colors.dart';
+import 'package:orchestrate/core/constants/app_constants.dart';
+import 'package:orchestrate/core/responsive/size_extension.dart';
+import 'package:orchestrate/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTextStyles {

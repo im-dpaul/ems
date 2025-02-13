@@ -1,4 +1,4 @@
-package com.example.event_management_system
+package com.deb.orchestrate
 
 import io.flutter.embedding.android.FlutterActivity
 

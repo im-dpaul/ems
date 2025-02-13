@@ -1,15 +1,15 @@
-name: event_management_system
+name: orchestrate
 description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.5.3
+  sdk: 3.5.3
 
 dependencies:
   flutter:
     sdk: flutter
-  flutter_screenutil: ^5.9.3
+  flutter_screenutil: 5.9.3
 
 dev_dependencies:
   flutter_test:

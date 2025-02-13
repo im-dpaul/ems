@@ -1,6 +1,6 @@
-import 'package:event_management_system/core/responsive/size_config.dart';
-import 'package:event_management_system/core/themes/app_colors.dart';
-import 'package:event_management_system/core/themes/app_text_styles.dart';
+import 'package:orchestrate/core/responsive/size_config.dart';
+import 'package:orchestrate/core/themes/app_colors.dart';
+import 'package:orchestrate/core/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,13 +29,13 @@ class MainApp extends StatelessWidget {
                   ),
                 );
                 return MaterialApp(
-                  title: 'EMS',
+                  title: 'Orchestrate',
                   debugShowCheckedModeBanner: false,
                   theme: ThemeData(fontFamily: 'SF-Pro-Rounded'),
                   home: Scaffold(
                     body: Center(
                       child: Text(
-                        'Event Management System',
+                        'Orchestrate - EMS',
                         style: AppTextStyles.f26w600Black,
                       ),
                     ),
