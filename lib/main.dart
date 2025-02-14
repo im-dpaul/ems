@@ -1,10 +1,12 @@
 import 'package:orchestrate/core/responsive/size_config.dart';
+import 'package:orchestrate/core/routes/app_routes.dart';
 import 'package:orchestrate/core/themes/app_colors.dart';
-import 'package:orchestrate/core/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:orchestrate/features/splash/controllers/splash_provider.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -35,17 +37,18 @@ class MainApp extends StatelessWidget {
                     statusBarColor: AppColors.transparent,
                   ),
                 );
-                return MaterialApp(
-                  title: 'Orchestrate',
-                  debugShowCheckedModeBanner: false,
-                  theme: ThemeData(fontFamily: 'SF-Pro-Rounded'),
-                  home: Scaffold(
-                    body: Center(
-                      child: Text(
-                        'Orchestrate - EMS',
-                        style: AppTextStyles.f26w600Black,
-                      ),
+                return MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider<SplashProvider>(
+                      create: (_) => SplashProvider(),
                     ),
+                  ],
+                  child: MaterialApp(
+                    initialRoute: '/',
+                    title: 'Orchestrate',
+                    debugShowCheckedModeBanner: false,
+                    theme: ThemeData(fontFamily: 'SF-Pro-Rounded'),
+                    onGenerateRoute: GenerateRoute.generateRoute,
                   ),
                 );
               },
