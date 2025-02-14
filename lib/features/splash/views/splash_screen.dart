@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:orchestrate/core/constants/app_enums.dart';
+import 'package:orchestrate/core/constants/app_extensions.dart';
+import 'package:orchestrate/core/routes/app_routes.dart';
 import 'package:orchestrate/core/themes/app_text_styles.dart';
 import 'package:orchestrate/features/splash/controllers/splash_provider.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +20,14 @@ class _SplashScreenState extends State<SplashScreen> {
       () async {
         if (!mounted) return;
         String role = await context.read<SplashProvider>().checkUserRole();
-        if (role.isNotEmpty) {}
+
+        if (!mounted) return;
+        role == UserType.admin.value
+            ? Navigator.pushReplacementNamed(context, AppRoutes.homeScreen)
+            : role == UserType.user.value
+                ? Navigator.pushReplacementNamed(context, AppRoutes.homeScreen)
+                : Navigator.pushReplacementNamed(
+                    context, AppRoutes.loginScreen);
       },
     );
   }
@@ -26,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // navigate();
+      navigate();
     });
   }
 

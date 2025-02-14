@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:orchestrate/core/utils/shared_prefs.dart';
 import 'package:orchestrate/features/splash/controllers/splash_provider.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -14,6 +15,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await SharedPrefs.init();
 
   runApp(const MainApp());
 }
