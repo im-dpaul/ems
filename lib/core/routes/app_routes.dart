@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:orchestrate/features/authentication/views/login_screen.dart';
+import 'package:orchestrate/features/authentication/views/signup_screen.dart';
 import 'package:orchestrate/features/home/views/home_screen.dart';
 import 'package:orchestrate/features/splash/views/splash_screen.dart';
 
@@ -26,6 +27,12 @@ mixin GenerateRoute {
       case '/loginScreen':
         return MaterialPageRoute(
           builder: (context) => const LoginScreen(),
+          settings: settings,
+        );
+
+      case '/signupScreen':
+        return MaterialPageRoute(
+          builder: (context) => const SignupScreen(),
           settings: settings,
         );
 

@@ -23,8 +23,8 @@ class PasswordInputField extends StatelessWidget {
       hintText: Strings.password,
       icon: Image.asset(
         ImagePath.lockIcon,
-        height: 22.h,
-        width: 22.w,
+        height: 20.h,
+        width: 20.w,
         color: AppColors.coolDarkGray,
       ),
       suffixIcon: GestureDetector(
@@ -33,7 +33,7 @@ class PasswordInputField extends StatelessWidget {
           isPasswordVisible
               ? Icons.visibility_outlined
               : Icons.visibility_off_outlined,
-          size: 22.h,
+          size: 20.h,
           color: AppColors.coolDarkGray,
         ),
       ),
