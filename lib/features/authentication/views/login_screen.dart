@@ -72,7 +72,10 @@ class LoginScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerRight,
                     child: ForgotPassword(
-                      onForgotPasswordTap: () {},
+                      onForgotPasswordTap: () {
+                        Navigator.pushNamed(
+                            context, AppRoutes.createResetPasswordScreen);
+                      },
                     ),
                   ),
                   SizedBox(height: 20.h),

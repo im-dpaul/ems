@@ -5,6 +5,7 @@ import 'package:orchestrate/core/themes/app_colors.dart';
 import 'package:orchestrate/core/themes/app_text_styles.dart';
 import 'package:orchestrate/features/authentication/controllers/otp_provider.dart';
 import 'package:orchestrate/features/authentication/widgets/resend_code.dart';
+import 'package:orchestrate/widgets/appbar/common_appbar.dart';
 import 'package:orchestrate/widgets/buttons/app_button.dart';
 import 'package:orchestrate/widgets/input_fields/otp_input_field.dart';
 import 'package:provider/provider.dart';
@@ -43,25 +44,12 @@ class _OTPScreenState extends State<OTPScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 40.h,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            otpProvider.otpTimer.cancel();
-                            otpProvider.otpController.clear();
-                            Navigator.of(context).pop();
-                          },
-                          child: Icon(
-                            Icons.arrow_back,
-                            size: 26.h,
-                            color: AppColors.pureBlack,
-                          ),
-                        )
-                      ],
-                    ),
+                  CommonAppBar(
+                    onBackButtonTap: () {
+                      otpProvider.otpTimer.cancel();
+                      otpProvider.otpController.clear();
+                      Navigator.of(context).pop();
+                    },
                   ),
                   SizedBox(height: 248.h),
                   Text(

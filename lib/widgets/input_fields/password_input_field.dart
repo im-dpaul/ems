@@ -6,12 +6,14 @@ import 'package:orchestrate/core/themes/app_colors.dart';
 import 'package:orchestrate/widgets/input_fields/text_input_field.dart';
 
 class PasswordInputField extends StatelessWidget {
+  final String? hintText;
   final bool isPasswordVisible;
   final TextEditingController passwordController;
   final void Function() onVisibilityTap;
 
   const PasswordInputField({
     super.key,
+    this.hintText,
     required this.isPasswordVisible,
     required this.passwordController,
     required this.onVisibilityTap,
@@ -20,7 +22,7 @@ class PasswordInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextInputField(
-      hintText: Strings.password,
+      hintText: hintText ?? Strings.password,
       icon: Image.asset(
         ImagePath.lockIcon,
         height: 20.h,
