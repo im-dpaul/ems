@@ -5,6 +5,8 @@ class Strings {
   static const String and = "and";
   static const String login = "Login";
   static const String submit = "Submit";
+  static const String verify = "Verify";
+  static const String resend = "Resend";
   static const String signUp = "Sign up";
   static const String emailID = "Email ID";
   static const String password = "Password";
@@ -21,6 +23,7 @@ class Strings {
   static const String forgotPassword = "Forgot Password?";
   static const String termsConditions = "Terms & Conditions";
   static const String confirmPassword = "Confirm new Password";
+  static const String didntReceiveCode = "Didn't receive code?";
   static const String newToOrchestra = "New to ${Constants.appName}?";
   static const String codeSentMessage = "A four digit code has been sent to";
   static const String bySigningUp = "By signing up, you are agreeing to our ";

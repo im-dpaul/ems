@@ -11,7 +11,6 @@ class AppColors {
   static const Color coolDarkGray = Color(0xFF8D99AE); // Cool Dark Gray
   static const Color darkBlueGray = Color(0xFF37474F); // Dark Blue-Gray
   static const Color mediumGray = Color(0xFF424242); // Medium Gray
-  static const Color darkGray = Color(0xFF303030); // Dark Gray
   static const Color charcoalGray = Color(0xFF2B2D42); // Deep Charcoal Gray
 
   // Blue Shades

@@ -90,7 +90,9 @@ class SignupScreen extends StatelessWidget {
                         (BuildContext context, SignupProvider provider, _) {
                       return AppButton(
                         title: Strings.continueText,
-                        onButtonTap: () {},
+                        onButtonTap: () {
+                          Navigator.pushNamed(context, AppRoutes.otpScreen);
+                        },
                       );
                     },
                   ),
