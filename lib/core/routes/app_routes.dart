@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:orchestrate/features/authentication/views/create_reset_password_screen.dart';
+import 'package:orchestrate/features/authentication/views/forgot_password_screen.dart';
 import 'package:orchestrate/features/authentication/views/login_screen.dart';
 import 'package:orchestrate/features/authentication/views/otp_screen.dart';
 import 'package:orchestrate/features/authentication/views/signup_screen.dart';
@@ -11,6 +12,7 @@ class AppRoutes {
   static const String loginScreen = '/loginScreen';
   static const String signupScreen = '/signupScreen';
   static const String otpScreen = '/otpScreen';
+  static const String forgotPasswordScreen = '/forgotPasswordScreen';
   static const String createResetPasswordScreen = '/createResetPasswordScreen';
 
   static const String homeScreen = '/homeScreen';
@@ -43,6 +45,12 @@ mixin GenerateRoute {
       case '/otpScreen':
         return MaterialPageRoute(
           builder: (context) => const OTPScreen(),
+          settings: settings,
+        );
+
+      case '/forgotPasswordScreen':
+        return MaterialPageRoute(
+          builder: (context) => const ForgotPasswordScreen(),
           settings: settings,
         );
 

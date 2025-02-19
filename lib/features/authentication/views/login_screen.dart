@@ -5,7 +5,7 @@ import 'package:orchestrate/core/responsive/size_extension.dart';
 import 'package:orchestrate/core/routes/app_routes.dart';
 import 'package:orchestrate/core/themes/app_colors.dart';
 import 'package:orchestrate/core/themes/app_text_styles.dart';
-import 'package:orchestrate/features/authentication/controllers/login_provider.dart';
+import 'package:orchestrate/features/authentication/controllers/auth_provider.dart';
 import 'package:orchestrate/features/authentication/widgets/forgot_password.dart';
 import 'package:orchestrate/features/authentication/widgets/login_with_google_button.dart';
 import 'package:orchestrate/features/authentication/widgets/new_to_orchestra.dart';
@@ -20,8 +20,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginProvider loginProvider =
-        Provider.of<LoginProvider>(context, listen: false);
+    final AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -53,17 +53,17 @@ class LoginScreen extends StatelessWidget {
                       color: AppColors.coolDarkGray.withOpacity(0.9),
                     ),
                     keyboardType: TextInputType.emailAddress,
-                    textController: loginProvider.emailController,
+                    textController: authProvider.emailController,
                     onSearchFieldChanged: (String text) {},
                   ),
                   SizedBox(height: 12.h),
-                  Consumer<LoginProvider>(
-                    builder: (BuildContext context, LoginProvider provider, _) {
+                  Consumer<AuthProvider>(
+                    builder: (BuildContext context, AuthProvider provider, _) {
                       return PasswordInputField(
                         isPasswordVisible: provider.showPassword,
-                        passwordController: loginProvider.passwordController,
+                        passwordController: authProvider.passwordController,
                         onVisibilityTap: () {
-                          loginProvider.togglePasswordVisibility();
+                          authProvider.togglePasswordVisibility();
                         },
                       );
                     },
@@ -74,13 +74,14 @@ class LoginScreen extends StatelessWidget {
                     child: ForgotPassword(
                       onForgotPasswordTap: () {
                         Navigator.pushNamed(
-                            context, AppRoutes.createResetPasswordScreen);
+                            context, AppRoutes.forgotPasswordScreen);
+                        authProvider.isCreatePassword = false;
                       },
                     ),
                   ),
                   SizedBox(height: 20.h),
-                  Consumer<LoginProvider>(
-                    builder: (BuildContext context, LoginProvider provider, _) {
+                  Consumer<AuthProvider>(
+                    builder: (BuildContext context, AuthProvider provider, _) {
                       return AppButton(
                         title: Strings.login,
                         onButtonTap: () {},
@@ -96,6 +97,7 @@ class LoginScreen extends StatelessWidget {
                     onRegisterTap: () {
                       Navigator.pushReplacementNamed(
                           context, AppRoutes.signupScreen);
+                      authProvider.isCreatePassword = true;
                     },
                   ),
                 ],

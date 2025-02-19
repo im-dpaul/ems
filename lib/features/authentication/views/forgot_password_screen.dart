@@ -6,14 +6,13 @@ import 'package:orchestrate/core/routes/app_routes.dart';
 import 'package:orchestrate/core/themes/app_colors.dart';
 import 'package:orchestrate/core/themes/app_text_styles.dart';
 import 'package:orchestrate/features/authentication/controllers/auth_provider.dart';
-import 'package:orchestrate/features/authentication/widgets/joined_us_before.dart';
+import 'package:orchestrate/widgets/appbar/common_appbar.dart';
 import 'package:orchestrate/widgets/buttons/app_button.dart';
 import 'package:orchestrate/widgets/input_fields/text_input_field.dart';
-import 'package:orchestrate/widgets/texts/terms_and_privacy_agreed.dart';
 import 'package:provider/provider.dart';
 
-class SignupScreen extends StatelessWidget {
-  const SignupScreen({super.key});
+class ForgotPasswordScreen extends StatelessWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,44 +28,29 @@ class SignupScreen extends StatelessWidget {
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 28.h, horizontal: 28.w),
+              padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 28.w),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 248.h),
-                  Text(
-                    Strings.signUp,
-                    style: AppTextStyles.f32w600Black,
+                  CommonAppBar(
+                    onBackButtonTap: () {
+                      Navigator.of(context).pop();
+                    },
                   ),
-                  SizedBox(height: 30.h),
-                  TextInputField(
-                    hintText: Strings.fullName,
-                    icon: Image.asset(
-                      ImagePath.fullNameIcon,
-                      height: 20.h,
-                      width: 20.w,
-                      color: AppColors.coolDarkGray,
+                  SizedBox(height: 260.h),
+                  SizedBox(
+                    width: 200.w,
+                    child: Text(
+                      Strings.forgotPassword,
+                      style: AppTextStyles.f32w600Black.copyWith(height: 1.2),
                     ),
-                    keyboardType: TextInputType.name,
-                    textController: authProvider.nameController,
-                    onSearchFieldChanged: (String text) {},
                   ),
-                  SizedBox(height: 12.h),
-                  TextInputField(
-                    hintText: Strings.emailID,
-                    icon: Image.asset(
-                      ImagePath.emailIcon,
-                      height: 20.h,
-                      width: 20.w,
-                      color: AppColors.coolDarkGray.withOpacity(0.9),
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    textController: authProvider.newEmailController,
-                    onSearchFieldChanged: (String text) {},
-                  ),
-                  SizedBox(height: 12.h),
+                  SizedBox(height: 20.h),
+                  Text(Strings.dontWorryMessage,
+                      style: AppTextStyles.f16w600CoolDarkGray),
+                  SizedBox(height: 40.h),
                   TextInputField(
                     hintText: Strings.mobile,
                     icon: Image.asset(
@@ -76,15 +60,10 @@ class SignupScreen extends StatelessWidget {
                       color: AppColors.coolDarkGray.withOpacity(0.9),
                     ),
                     keyboardType: TextInputType.phone,
-                    textController: authProvider.newMobileController,
+                    textController: authProvider.mobileController,
                     onSearchFieldChanged: (String text) {},
                   ),
-                  SizedBox(height: 20.h),
-                  TermsAndPrivacyAgreed(
-                    onPrivacyTap: () {},
-                    onTermsTap: () {},
-                  ),
-                  SizedBox(height: 40.h),
+                  SizedBox(height: 132.h),
                   Consumer<AuthProvider>(
                     builder: (BuildContext context, AuthProvider provider, _) {
                       return AppButton(
@@ -95,13 +74,7 @@ class SignupScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(height: 40.h),
-                  JoinedUsBefore(
-                    onLoginTap: () {
-                      Navigator.pushReplacementNamed(
-                          context, AppRoutes.loginScreen);
-                    },
-                  )
+                  SizedBox(height: 16.h),
                 ],
               ),
             ),

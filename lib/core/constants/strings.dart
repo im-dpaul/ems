@@ -20,6 +20,7 @@ class Strings {
   static const String privacyPolicy = "Privacy Policy";
   static const String loginGoogle = "Login with Google";
   static const String joinedBefore = "Joined us before?";
+  static const String createPassword = "Create Password";
   static const String forgotPassword = "Forgot Password?";
   static const String termsConditions = "Terms & Conditions";
   static const String confirmPassword = "Confirm new Password";
@@ -28,5 +29,5 @@ class Strings {
   static const String codeSentMessage = "A four digit code has been sent to";
   static const String bySigningUp = "By signing up, you are agreeing to our ";
   static const String dontWorryMessage =
-      "Don't worry! It happens. Please enter the Email ID / Mobile Number associated with your account.";
+      "Don't worry! It happens. Please enter the Mobile number associated with your account.";
 }

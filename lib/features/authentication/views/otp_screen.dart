@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:orchestrate/core/constants/strings.dart';
 import 'package:orchestrate/core/responsive/size_extension.dart';
+import 'package:orchestrate/core/routes/app_routes.dart';
 import 'package:orchestrate/core/themes/app_colors.dart';
 import 'package:orchestrate/core/themes/app_text_styles.dart';
-import 'package:orchestrate/features/authentication/controllers/otp_provider.dart';
+import 'package:orchestrate/features/authentication/controllers/auth_provider.dart';
 import 'package:orchestrate/features/authentication/widgets/resend_code.dart';
 import 'package:orchestrate/widgets/appbar/common_appbar.dart';
 import 'package:orchestrate/widgets/buttons/app_button.dart';
@@ -18,13 +19,13 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
-  late final OTPProvider otpProvider;
+  late final AuthProvider authProvider;
 
   @override
   void initState() {
     super.initState();
-    otpProvider = Provider.of<OTPProvider>(context, listen: false);
-    otpProvider.startTimer();
+    authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.startTimer();
   }
 
   @override
@@ -46,8 +47,8 @@ class _OTPScreenState extends State<OTPScreen> {
                 children: [
                   CommonAppBar(
                     onBackButtonTap: () {
-                      otpProvider.otpTimer.cancel();
-                      otpProvider.otpController.clear();
+                      authProvider.otpTimer.cancel();
+                      authProvider.otpController.clear();
                       Navigator.of(context).pop();
                     },
                   ),
@@ -63,25 +64,31 @@ class _OTPScreenState extends State<OTPScreen> {
                       style: AppTextStyles.f16w600CoolDarkGray),
                   SizedBox(height: 40.h),
                   OTPInputField(
-                    pinController: otpProvider.otpController,
+                    pinController: authProvider.otpController,
                     errorText: "",
                   ),
                   SizedBox(height: 114.h),
-                  Consumer<OTPProvider>(
-                    builder: (BuildContext context, OTPProvider provider, _) {
+                  Consumer<AuthProvider>(
+                    builder: (BuildContext context, AuthProvider provider, _) {
                       return AppButton(
                         title: Strings.verify,
-                        onButtonTap: () {},
+                        onButtonTap: () async {
+                          await authProvider.onOTPVerifyButtonTap();
+                          if (context.mounted) {
+                            Navigator.pushNamed(
+                                context, AppRoutes.createResetPasswordScreen);
+                          }
+                        },
                       );
                     },
                   ),
                   SizedBox(height: 40.h),
-                  Consumer<OTPProvider>(
-                    builder: (BuildContext context, OTPProvider provider, _) {
+                  Consumer<AuthProvider>(
+                    builder: (BuildContext context, AuthProvider provider, _) {
                       return ResendCode(
                         timerSecond: provider.timerSecond,
                         onResendTap: () {
-                          otpProvider.startTimer();
+                          authProvider.startTimer();
                         },
                       );
                     },
