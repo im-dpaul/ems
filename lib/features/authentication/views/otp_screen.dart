@@ -75,8 +75,11 @@ class _OTPScreenState extends State<OTPScreen> {
                         onButtonTap: () async {
                           await authProvider.onOTPVerifyButtonTap();
                           if (context.mounted) {
-                            Navigator.pushNamed(
-                                context, AppRoutes.createResetPasswordScreen);
+                            provider.isCreatePassword
+                                ? Navigator.pushNamed(
+                                    context, AppRoutes.roleSelectionScreen)
+                                : Navigator.pushNamed(context,
+                                    AppRoutes.createResetPasswordScreen);
                           }
                         },
                       );

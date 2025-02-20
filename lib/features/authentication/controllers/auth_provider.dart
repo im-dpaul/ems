@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:orchestrate/core/constants/app_enums.dart';
 
 class AuthProvider with ChangeNotifier {
   bool isLoading = false;
@@ -17,6 +18,10 @@ class AuthProvider with ChangeNotifier {
   TextEditingController nameController = TextEditingController();
   TextEditingController newEmailController = TextEditingController();
   TextEditingController newMobileController = TextEditingController();
+
+  // ------------------------ Role Selection Screen ------------------------
+
+  UserType userType = UserType.user;
 
   // ------------------------ Forgot Password Screen ------------------------
 
@@ -54,6 +59,13 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> onContinueButtonTap() async {
     isLoading = true;
+    notifyListeners();
+  }
+
+  // ------------------------ Role Selection Screen ------------------------
+
+  void setUserType(UserType role) {
+    userType = role;
     notifyListeners();
   }
 
