@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:orchestrate/core/constants/image_path.dart';
 import 'package:orchestrate/core/constants/strings.dart';
 import 'package:orchestrate/core/responsive/size_extension.dart';
 import 'package:orchestrate/core/routes/app_routes.dart';
@@ -52,7 +53,12 @@ class _OTPScreenState extends State<OTPScreen> {
                       Navigator.of(context).pop();
                     },
                   ),
-                  SizedBox(height: 248.h),
+                  SizedBox(
+                    height: 248.h,
+                    child: Center(
+                      child: Image.asset(ImagePath.otpGraphics),
+                    ),
+                  ),
                   Text(
                     Strings.enterOTP,
                     style: AppTextStyles.f32w600Black,

@@ -40,7 +40,12 @@ class RoleSelectionScreen extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                   ),
-                  SizedBox(height: 260.h),
+                  SizedBox(
+                    height: 260.h,
+                    child: Center(
+                      child: Image.asset(ImagePath.peopleEmjoyingGraphics),
+                    ),
+                  ),
                   Text(
                     Strings.roleSelection,
                     style: AppTextStyles.f32w600Black.copyWith(height: 1.2),

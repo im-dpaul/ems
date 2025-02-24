@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:orchestrate/core/constants/image_path.dart';
 import 'package:orchestrate/core/constants/strings.dart';
 import 'package:orchestrate/core/responsive/size_extension.dart';
 import 'package:orchestrate/core/themes/app_colors.dart';
@@ -37,7 +38,12 @@ class CreateResetPasswordScreen extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                   ),
-                  SizedBox(height: 260.h),
+                  SizedBox(
+                    height: 260.h,
+                    child: Center(
+                      child: Image.asset(ImagePath.resetPasswordGraphics),
+                    ),
+                  ),
                   Consumer<AuthProvider>(
                     builder: (BuildContext context, AuthProvider provider, _) {
                       return SizedBox(

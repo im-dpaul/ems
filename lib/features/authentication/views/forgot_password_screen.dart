@@ -39,7 +39,12 @@ class ForgotPasswordScreen extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                   ),
-                  SizedBox(height: 260.h),
+                  SizedBox(
+                    height: 260.h,
+                    child: Center(
+                      child: Image.asset(ImagePath.forgetPasswordGraphics),
+                    ),
+                  ),
                   SizedBox(
                     width: 200.w,
                     child: Text(

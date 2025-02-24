@@ -38,7 +38,12 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 218.h),
+                  SizedBox(
+                    height: 218.h,
+                    child: Center(
+                      child: Image.asset(ImagePath.loginGraphics),
+                    ),
+                  ),
                   Text(
                     Strings.login,
                     style: AppTextStyles.f32w600Black,

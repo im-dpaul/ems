@@ -35,7 +35,12 @@ class SignupScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 248.h),
+                  SizedBox(
+                    height: 248.h,
+                    child: Center(
+                      child: Image.asset(ImagePath.registerUserGraphics),
+                    ),
+                  ),
                   Text(
                     Strings.signUp,
                     style: AppTextStyles.f32w600Black,
