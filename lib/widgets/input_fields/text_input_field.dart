@@ -29,7 +29,7 @@ class TextInputField extends StatelessWidget {
 
   final void Function()? onSearchTap;
   final void Function()? onTapOutside;
-  final void Function(String textValue) onSearchFieldChanged;
+  final void Function(String)? onFieldChanged;
   final TextEditingController textController;
 
   /// Custom app text input field
@@ -56,7 +56,7 @@ class TextInputField extends StatelessWidget {
     this.icon,
     this.prefixIcon,
     this.suffixIcon,
-    required this.onSearchFieldChanged,
+    required this.onFieldChanged,
     required this.textController,
   });
 
@@ -78,9 +78,7 @@ class TextInputField extends StatelessWidget {
         cursorColor: cursorColor ?? AppColors.primaryBlue,
         readOnly: readOnly ?? false,
         onTap: onSearchTap,
-        onChanged: (String textValue) {
-          onSearchFieldChanged(textValue);
-        },
+        onChanged: onFieldChanged,
         onTapOutside: (PointerDownEvent pointerDownEvent) {
           if (onTapOutside != null) {
             onTapOutside!();

@@ -7,13 +7,17 @@ import 'package:orchestrate/widgets/input_fields/text_input_field.dart';
 
 class PasswordInputField extends StatelessWidget {
   final String? hintText;
+  final String? errorText;
   final bool isPasswordVisible;
   final TextEditingController passwordController;
   final void Function() onVisibilityTap;
+  final void Function(String)? onFieldChanged;
 
   const PasswordInputField({
     super.key,
     this.hintText,
+    this.errorText,
+    this.onFieldChanged,
     required this.isPasswordVisible,
     required this.passwordController,
     required this.onVisibilityTap,
@@ -39,10 +43,11 @@ class PasswordInputField extends StatelessWidget {
           color: AppColors.coolDarkGray,
         ),
       ),
+      errorText: errorText,
       obscureText: isPasswordVisible,
       keyboardType: TextInputType.visiblePassword,
       textController: passwordController,
-      onSearchFieldChanged: (String text) {},
+      onFieldChanged: onFieldChanged,
     );
   }
 }

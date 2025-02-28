@@ -56,7 +56,7 @@ class SignupScreen extends StatelessWidget {
                     ),
                     keyboardType: TextInputType.name,
                     textController: authProvider.nameController,
-                    onSearchFieldChanged: (String text) {},
+                    onFieldChanged: (String text) {},
                   ),
                   SizedBox(height: 12.h),
                   TextInputField(
@@ -69,7 +69,7 @@ class SignupScreen extends StatelessWidget {
                     ),
                     keyboardType: TextInputType.emailAddress,
                     textController: authProvider.newEmailController,
-                    onSearchFieldChanged: (String text) {},
+                    onFieldChanged: (String text) {},
                   ),
                   SizedBox(height: 12.h),
                   TextInputField(
@@ -82,7 +82,7 @@ class SignupScreen extends StatelessWidget {
                     ),
                     keyboardType: TextInputType.phone,
                     textController: authProvider.newMobileController,
-                    onSearchFieldChanged: (String text) {},
+                    onFieldChanged: (String text) {},
                   ),
                   SizedBox(height: 20.h),
                   TermsAndPrivacyAgreed(

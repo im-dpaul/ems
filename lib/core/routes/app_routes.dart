@@ -69,7 +69,7 @@ mixin GenerateRoute {
           settings: settings,
         );
 
-      case 'homeScreen':
+      case '/homeScreen':
         return MaterialPageRoute(
           builder: (context) => const HomeScreen(),
           settings: settings,

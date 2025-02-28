@@ -40,4 +40,7 @@ class Strings {
       "I turn visions into reality. Planning concerts, shows, fstivals and more!";
   static const String dontWorryMessage =
       "Don't worry! It happens. Please enter the Mobile number associated with your account.";
+
+  static const String invalidEmail = "Please enter a valid email address";
+  static const String invalidPassword = "Please enter valid password";
 }

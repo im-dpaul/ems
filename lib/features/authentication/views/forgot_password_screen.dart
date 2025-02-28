@@ -66,7 +66,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     ),
                     keyboardType: TextInputType.phone,
                     textController: authProvider.mobileController,
-                    onSearchFieldChanged: (String text) {},
+                    onFieldChanged: (String text) {},
                   ),
                   SizedBox(height: 132.h),
                   Consumer<AuthProvider>(
