@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:orchestrate/core/utils/shared_prefs.dart';
 import 'package:orchestrate/features/authentication/controllers/auth_provider.dart';
+import 'package:orchestrate/features/authentication/controllers/login_provider.dart';
 import 'package:orchestrate/features/splash/controllers/splash_provider.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -48,6 +49,9 @@ class MainApp extends StatelessWidget {
                     ),
                     ChangeNotifierProvider<AuthProvider>(
                       create: (_) => AuthProvider(),
+                    ),
+                    ChangeNotifierProvider<LoginProvider>(
+                      create: (_) => LoginProvider(),
                     ),
                   ],
                   child: MaterialApp(

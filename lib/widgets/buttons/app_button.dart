@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:orchestrate/core/themes/app_colors.dart';
 import 'package:orchestrate/core/themes/app_text_styles.dart';
 
@@ -7,6 +8,8 @@ class AppButton extends StatelessWidget {
   final Color? color;
   final double? width;
   final double? height;
+  final bool isLoading;
+  final Color? loaderColor;
   final TextStyle? titleStyle;
   final void Function() onButtonTap;
 
@@ -16,6 +19,8 @@ class AppButton extends StatelessWidget {
     this.width,
     this.height,
     this.titleStyle,
+    this.loaderColor,
+    this.isLoading = false,
     required this.title,
     required this.onButtonTap,
   });
@@ -32,10 +37,15 @@ class AppButton extends StatelessWidget {
           color: color ?? AppColors.primaryBlue,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Text(
-          title,
-          style: titleStyle ?? AppTextStyles.f16w600White,
-        ),
+        child: isLoading
+            ? LoadingAnimationWidget.waveDots(
+                size: 36,
+                color: loaderColor ?? AppColors.pureWhite,
+              )
+            : Text(
+                title,
+                style: titleStyle ?? AppTextStyles.f16w600White,
+              ),
       ),
     );
   }

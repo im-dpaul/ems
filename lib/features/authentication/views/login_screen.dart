@@ -5,11 +5,9 @@ import 'package:orchestrate/core/responsive/size_extension.dart';
 import 'package:orchestrate/core/routes/app_routes.dart';
 import 'package:orchestrate/core/themes/app_colors.dart';
 import 'package:orchestrate/core/themes/app_text_styles.dart';
-import 'package:orchestrate/features/authentication/controllers/auth_provider.dart';
+import 'package:orchestrate/features/authentication/controllers/login_provider.dart';
 import 'package:orchestrate/features/authentication/widgets/forgot_password.dart';
-import 'package:orchestrate/features/authentication/widgets/login_with_google_button.dart';
 import 'package:orchestrate/features/authentication/widgets/new_to_orchestra.dart';
-import 'package:orchestrate/features/authentication/widgets/or_divider.dart';
 import 'package:orchestrate/widgets/buttons/app_button.dart';
 import 'package:orchestrate/widgets/input_fields/password_input_field.dart';
 import 'package:orchestrate/widgets/input_fields/text_input_field.dart';
@@ -20,8 +18,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthProvider authProvider =
-        Provider.of<AuthProvider>(context, listen: false);
+    final LoginProvider loginProvider =
+        Provider.of<LoginProvider>(context, listen: false);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -39,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 218.h,
+                    height: 300.h,
                     child: Center(
                       child: Image.asset(ImagePath.loginGraphics),
                     ),
@@ -49,62 +47,95 @@ class LoginScreen extends StatelessWidget {
                     style: AppTextStyles.f32w600Black,
                   ),
                   SizedBox(height: 30.h),
-                  TextInputField(
-                    hintText: Strings.emailID,
-                    icon: Image.asset(
-                      ImagePath.emailIcon,
-                      height: 20.h,
-                      width: 20.w,
-                      color: AppColors.coolDarkGray.withOpacity(0.9),
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    textController: authProvider.emailController,
-                    onSearchFieldChanged: (String text) {},
-                  ),
-                  SizedBox(height: 12.h),
-                  Consumer<AuthProvider>(
-                    builder: (BuildContext context, AuthProvider provider, _) {
-                      return PasswordInputField(
-                        isPasswordVisible: provider.showPassword,
-                        passwordController: authProvider.passwordController,
-                        onVisibilityTap: () {
-                          authProvider.togglePasswordVisibility();
+                  Consumer<LoginProvider>(
+                    builder: (BuildContext context, LoginProvider provider, _) {
+                      return TextInputField(
+                        hintText: Strings.emailID,
+                        icon: Image.asset(
+                          ImagePath.emailIcon,
+                          height: 20.h,
+                          width: 20.w,
+                          color: AppColors.coolDarkGray.withOpacity(0.9),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textController: loginProvider.emailController,
+                        errorText: provider.emailErrorText,
+                        onFieldChanged: (String text) {
+                          loginProvider.updateEmailErrorText();
                         },
                       );
                     },
                   ),
-                  SizedBox(height: 30.h),
+                  SizedBox(height: 20.h),
+                  Consumer<LoginProvider>(
+                    builder: (BuildContext context, LoginProvider provider, _) {
+                      return PasswordInputField(
+                        isPasswordVisible: provider.showPassword,
+                        passwordController: loginProvider.passwordController,
+                        errorText: provider.passwordErrorText,
+                        onVisibilityTap: () {
+                          loginProvider.togglePasswordVisibility();
+                        },
+                        onFieldChanged: (String text) {
+                          loginProvider.updatePasswordErrorText();
+                        },
+                      );
+                    },
+                  ),
+                  SizedBox(height: 28.h),
                   Align(
                     alignment: Alignment.centerRight,
                     child: ForgotPassword(
                       onForgotPasswordTap: () {
                         Navigator.pushNamed(
                             context, AppRoutes.forgotPasswordScreen);
-                        authProvider.isCreatePassword = false;
                       },
                     ),
                   ),
-                  SizedBox(height: 20.h),
-                  Consumer<AuthProvider>(
-                    builder: (BuildContext context, AuthProvider provider, _) {
-                      return AppButton(
-                        title: Strings.login,
-                        onButtonTap: () {},
+                  SizedBox(height: 66.h),
+                  Consumer<LoginProvider>(
+                    builder: (BuildContext context, LoginProvider provider, _) {
+                      return SizedBox(
+                        height: 20.h,
+                        child: Text(
+                          provider.authErrorText ?? '',
+                          style: AppTextStyles.f12w600Black
+                              .copyWith(color: AppColors.fireRed),
+                        ),
                       );
                     },
                   ),
-                  const OrDivider(),
-                  LoginWithGoogleButton(
-                    onLoginWithGoogleTap: () {},
+                  SizedBox(height: 8.h),
+                  Consumer<LoginProvider>(
+                    builder: (BuildContext context, LoginProvider provider, _) {
+                      return AppButton(
+                        title: Strings.login,
+                        isLoading: provider.isLoading,
+                        onButtonTap: () async {
+                          bool isAuthenticated =
+                              await loginProvider.onLoginButtonTap();
+                          if (isAuthenticated) {
+                            if (context.mounted) {
+                              Navigator.pushReplacementNamed(
+                                  context, AppRoutes.homeScreen);
+                            }
+                          }
+                        },
+                      );
+                    },
                   ),
+                  // const OrDivider(),
+                  // LoginWithGoogleButton(
+                  //   onLoginWithGoogleTap: () {},
+                  // ),
                   SizedBox(height: 40.h),
                   NewToOrchestra(
                     onRegisterTap: () {
                       Navigator.pushReplacementNamed(
                           context, AppRoutes.signupScreen);
-                      authProvider.isCreatePassword = true;
                     },
                   ),
+                  SizedBox(height: 20.h),
                 ],
               ),
             ),

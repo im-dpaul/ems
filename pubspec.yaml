@@ -17,6 +17,9 @@ dependencies:
   # Responsiveness & screenutil
   flutter_screenutil: 5.9.3
 
+  # Custom loader
+  loading_animation_widget: 1.3.0
+
   # State Management
   provider: 6.1.2
 
