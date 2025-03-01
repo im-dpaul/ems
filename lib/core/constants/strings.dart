@@ -4,6 +4,7 @@ class Strings {
   static const String or = "Or";
   static const String and = "and";
   static const String login = "Login";
+  static const String finish = "Finish";
   static const String submit = "Submit";
   static const String verify = "Verify";
   static const String resend = "Resend";
@@ -39,8 +40,14 @@ class Strings {
   static const String userTypeAdminMessage =
       "I turn visions into reality. Planning concerts, shows, fstivals and more!";
   static const String dontWorryMessage =
-      "Don't worry! It happens. Please enter the Mobile number associated with your account.";
+      "Don't worry! It happens. Please enter the Email address associated with your account.";
 
   static const String invalidEmail = "Please enter a valid email address";
-  static const String invalidPassword = "Please enter valid password";
+  static const String invalidPassword =
+      "Password must be atleast 6 characters.";
+  static const String invalidConfirmPassword = "Both password didn't match.";
+  static const String invalidName = "Please enter a valid name";
+  static const String invalidMobile = "Please enter a 10-digit mobile number.";
+  static const String invalidOTP =
+      "Invalid OTP! Please enter a 6-digit number.";
 }

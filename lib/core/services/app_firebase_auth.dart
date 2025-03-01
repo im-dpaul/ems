@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:orchestrate/core/utils/try_catch_handler.dart';
 
@@ -29,7 +28,6 @@ class AppFirebaseAuth {
         return userCredential.user;
       },
       onError: (errorMessage) {
-        log("Sign Up Failed: $errorMessage");
         throw errorMessage;
       },
     );
@@ -61,7 +59,6 @@ class AppFirebaseAuth {
         await _auth.signOut();
       },
       onError: (errorMessage) {
-        log("Sign Out Failed: $errorMessage");
         throw errorMessage;
       },
     );
@@ -74,7 +71,6 @@ class AppFirebaseAuth {
         await _auth.sendPasswordResetEmail(email: email);
       },
       onError: (errorMessage) {
-        log("Password Reset Failed: $errorMessage");
         throw errorMessage;
       },
     );
@@ -83,15 +79,16 @@ class AppFirebaseAuth {
   /// Phone Number Authentication - Request OTP
   Future<void> verifyPhoneNumber({
     required String phoneNumber,
-    required Function(String, int?) codeSent,
-    required Function(FirebaseAuthException) verificationFailed,
+    required void Function(String, int?) codeSent,
+    required void Function(FirebaseAuthException) verificationFailed,
+    required void Function(PhoneAuthCredential) verificationCompleted,
   }) async {
     return await TryCatchHandler.execute<void>(
       function: () async {
         await _auth.verifyPhoneNumber(
           phoneNumber: phoneNumber,
           verificationCompleted: (PhoneAuthCredential credential) async {
-            await _auth.signInWithCredential(credential);
+            verificationCompleted(credential);
           },
           verificationFailed: (FirebaseAuthException e) {
             verificationFailed(e);
@@ -103,7 +100,6 @@ class AppFirebaseAuth {
         );
       },
       onError: (errorMessage) {
-        log("Phone Verification Failed: $errorMessage");
         throw errorMessage;
       },
     );
@@ -125,7 +121,6 @@ class AppFirebaseAuth {
         return userCredential.user;
       },
       onError: (errorMessage) {
-        log("OTP Verification Failed: $errorMessage");
         throw errorMessage;
       },
     );

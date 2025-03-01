@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:orchestrate/core/constants/image_path.dart';
 import 'package:orchestrate/core/constants/strings.dart';
 import 'package:orchestrate/core/responsive/size_extension.dart';
+import 'package:orchestrate/core/routes/app_routes.dart';
 import 'package:orchestrate/core/themes/app_colors.dart';
 import 'package:orchestrate/core/themes/app_text_styles.dart';
-import 'package:orchestrate/features/authentication/controllers/auth_provider.dart';
+import 'package:orchestrate/features/authentication/controllers/signup_provider.dart';
 import 'package:orchestrate/widgets/appbar/common_appbar.dart';
 import 'package:orchestrate/widgets/buttons/app_button.dart';
 import 'package:orchestrate/widgets/input_fields/password_input_field.dart';
@@ -15,8 +16,8 @@ class CreateResetPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthProvider authProvider =
-        Provider.of<AuthProvider>(context, listen: false);
+    final SignupProvider signupProvider =
+        Provider.of<SignupProvider>(context, listen: false);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -39,13 +40,14 @@ class CreateResetPasswordScreen extends StatelessWidget {
                     },
                   ),
                   SizedBox(
-                    height: 260.h,
+                    height: 300.h,
                     child: Center(
                       child: Image.asset(ImagePath.resetPasswordGraphics),
                     ),
                   ),
-                  Consumer<AuthProvider>(
-                    builder: (BuildContext context, AuthProvider provider, _) {
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
                       return SizedBox(
                         width: 200.w,
                         child: Text(
@@ -59,42 +61,79 @@ class CreateResetPasswordScreen extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 30.h),
-                  Consumer<AuthProvider>(
-                    builder: (BuildContext context, AuthProvider provider, _) {
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
                       return PasswordInputField(
                         hintText: Strings.newPassword,
+                        errorText: provider.newPasswordErrorText,
                         isPasswordVisible: provider.showNewPassword,
-                        passwordController: authProvider.newPasswordController,
+                        passwordController:
+                            signupProvider.newPasswordController,
                         onVisibilityTap: () {
-                          authProvider.toggleNewPasswordVisibility();
+                          signupProvider.toggleNewPasswordVisibility();
+                        },
+                        onFieldChanged: (String password) {
+                          signupProvider.updateNewPasswordErrorText();
                         },
                       );
                     },
                   ),
-                  SizedBox(height: 12.h),
-                  Consumer<AuthProvider>(
-                    builder: (BuildContext context, AuthProvider provider, _) {
+                  SizedBox(height: 20.h),
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
                       return PasswordInputField(
                         hintText: Strings.confirmPassword,
+                        errorText: provider.confirmPasswordErrorText,
                         isPasswordVisible: provider.showConfirmPassword,
                         passwordController:
-                            authProvider.confirmPasswordController,
+                            signupProvider.confirmPasswordController,
                         onVisibilityTap: () {
-                          authProvider.toggleConfirmPasswordVisibility();
+                          signupProvider.toggleConfirmPasswordVisibility();
+                        },
+                        onFieldChanged: (String password) {
+                          signupProvider.updateConfirmPasswordErrorText();
                         },
                       );
                     },
                   ),
-                  SizedBox(height: 148.h),
-                  Consumer<AuthProvider>(
-                    builder: (BuildContext context, AuthProvider provider, _) {
-                      return AppButton(
-                        title: Strings.submit,
-                        onButtonTap: () {},
+                  SizedBox(height: 130.h),
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
+                      return SizedBox(
+                        height: 20.h,
+                        child: Text(
+                          provider.submitPasswordErrorText ?? '',
+                          style: AppTextStyles.f12w600Black
+                              .copyWith(color: AppColors.fireRed),
+                        ),
                       );
                     },
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 8.h),
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
+                      return AppButton(
+                        isLoading: provider.isLoading,
+                        title: Strings.submit,
+                        onButtonTap: () async {
+                          bool registered =
+                              await signupProvider.onSubmitPasswordTap();
+                          if (context.mounted && registered) {
+                            provider.isRegisterUser
+                                ? Navigator.pushReplacementNamed(
+                                    context, AppRoutes.roleSelectionScreen)
+                                : Navigator.pushReplacementNamed(
+                                    context, AppRoutes.homeScreen);
+                          }
+                        },
+                      );
+                    },
+                  ),
+                  SizedBox(height: 20.h),
                 ],
               ),
             ),

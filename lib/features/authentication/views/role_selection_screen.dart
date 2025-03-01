@@ -6,8 +6,7 @@ import 'package:orchestrate/core/responsive/size_extension.dart';
 import 'package:orchestrate/core/routes/app_routes.dart';
 import 'package:orchestrate/core/themes/app_colors.dart';
 import 'package:orchestrate/core/themes/app_text_styles.dart';
-import 'package:orchestrate/features/authentication/controllers/auth_provider.dart';
-import 'package:orchestrate/widgets/appbar/common_appbar.dart';
+import 'package:orchestrate/features/authentication/controllers/signup_provider.dart';
 import 'package:orchestrate/widgets/buttons/app_button.dart';
 import 'package:orchestrate/widgets/cards/user_role_card.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +16,8 @@ class RoleSelectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthProvider authProvider =
-        Provider.of<AuthProvider>(context, listen: false);
+    final SignupProvider signupProvider =
+        Provider.of<SignupProvider>(context, listen: false);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -35,13 +34,8 @@ class RoleSelectionScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CommonAppBar(
-                    onBackButtonTap: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
                   SizedBox(
-                    height: 260.h,
+                    height: 300.h,
                     child: Center(
                       child: Image.asset(ImagePath.peopleEmjoyingGraphics),
                     ),
@@ -51,8 +45,9 @@ class RoleSelectionScreen extends StatelessWidget {
                     style: AppTextStyles.f32w600Black.copyWith(height: 1.2),
                   ),
                   SizedBox(height: 30.h),
-                  Consumer<AuthProvider>(
-                    builder: (BuildContext context, AuthProvider provider, _) {
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
                       return Column(
                         children: [
                           Row(
@@ -63,7 +58,7 @@ class RoleSelectionScreen extends StatelessWidget {
                                 title: Strings.attendee,
                                 isActive: provider.userType == UserType.user,
                                 onCardTap: () {
-                                  authProvider.setUserType(UserType.user);
+                                  signupProvider.setUserType(UserType.user);
                                 },
                               ),
                               UserRoleCard(
@@ -71,7 +66,7 @@ class RoleSelectionScreen extends StatelessWidget {
                                 title: Strings.organizer,
                                 isActive: provider.userType == UserType.admin,
                                 onCardTap: () {
-                                  authProvider.setUserType(UserType.admin);
+                                  signupProvider.setUserType(UserType.admin);
                                 },
                               ),
                             ],
@@ -88,19 +83,20 @@ class RoleSelectionScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(height: 42.h),
-                  Consumer<AuthProvider>(
-                    builder: (BuildContext context, AuthProvider provider, _) {
+                  SizedBox(height: 100.h),
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
                       return AppButton(
-                        title: Strings.continueText,
+                        title: Strings.finish,
                         onButtonTap: () {
-                          Navigator.pushNamed(
-                              context, AppRoutes.createResetPasswordScreen);
+                          Navigator.pushReplacementNamed(
+                              context, AppRoutes.homeScreen);
                         },
                       );
                     },
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 20.h),
                 ],
               ),
             ),

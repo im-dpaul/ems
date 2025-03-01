@@ -6,6 +6,10 @@ import 'package:orchestrate/features/authentication/repository/auth_repository.d
 
 class LoginProvider with ChangeNotifier {
   bool isLoading = false;
+  final AuthRepository _authRepository = AuthRepository();
+
+  // ------------------------ Signin Screen ------------------------
+
   bool showPassword = true;
 
   String? emailErrorText;
@@ -15,7 +19,13 @@ class LoginProvider with ChangeNotifier {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  final AuthRepository _authRepository = AuthRepository();
+  // ------------------------ Forgot Password Screen ------------------------
+
+  String? resetEmailErrorText;
+
+  TextEditingController resetEmailController = TextEditingController();
+
+  // ------------------------ Signin Screen ------------------------
 
   void togglePasswordVisibility() {
     showPassword = !showPassword;
@@ -80,5 +90,37 @@ class LoginProvider with ChangeNotifier {
     isLoading = false;
     notifyListeners();
     return userLoggedIn;
+  }
+
+  // ------------------------ Forgot Password Screen ------------------------
+
+  void updateResetEmailErrorText({String? message}) {
+    resetEmailErrorText = message;
+    notifyListeners();
+  }
+
+  Future<bool> onSubmitTap() async {
+    bool emailSent = false;
+    isLoading = true;
+    notifyListeners();
+    final String email = resetEmailController.text;
+
+    updateResetEmailErrorText(message: null);
+    bool validEmail = InputValidators.isValidEmail(email);
+
+    try {
+      if (!validEmail) {
+        updateResetEmailErrorText(message: Strings.invalidEmail);
+      } else {
+        await _authRepository.sendResetPasswordLink(email: email);
+        emailSent = true;
+      }
+    } catch (e) {
+      updateResetEmailErrorText(message: e.toString());
+    }
+
+    isLoading = false;
+    notifyListeners();
+    return emailSent;
   }
 }

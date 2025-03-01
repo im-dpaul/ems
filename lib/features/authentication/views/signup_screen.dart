@@ -5,7 +5,7 @@ import 'package:orchestrate/core/responsive/size_extension.dart';
 import 'package:orchestrate/core/routes/app_routes.dart';
 import 'package:orchestrate/core/themes/app_colors.dart';
 import 'package:orchestrate/core/themes/app_text_styles.dart';
-import 'package:orchestrate/features/authentication/controllers/auth_provider.dart';
+import 'package:orchestrate/features/authentication/controllers/signup_provider.dart';
 import 'package:orchestrate/features/authentication/widgets/joined_us_before.dart';
 import 'package:orchestrate/widgets/buttons/app_button.dart';
 import 'package:orchestrate/widgets/input_fields/text_input_field.dart';
@@ -17,8 +17,8 @@ class SignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthProvider authProvider =
-        Provider.of<AuthProvider>(context, listen: false);
+    final SignupProvider signupProvider =
+        Provider.of<SignupProvider>(context, listen: false);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -36,7 +36,7 @@ class SignupScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 248.h,
+                    height: 280.h,
                     child: Center(
                       child: Image.asset(ImagePath.registerUserGraphics),
                     ),
@@ -46,43 +46,67 @@ class SignupScreen extends StatelessWidget {
                     style: AppTextStyles.f32w600Black,
                   ),
                   SizedBox(height: 30.h),
-                  TextInputField(
-                    hintText: Strings.fullName,
-                    icon: Image.asset(
-                      ImagePath.fullNameIcon,
-                      height: 20.h,
-                      width: 20.w,
-                      color: AppColors.coolDarkGray,
-                    ),
-                    keyboardType: TextInputType.name,
-                    textController: authProvider.nameController,
-                    onFieldChanged: (String text) {},
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
+                      return TextInputField(
+                        hintText: Strings.fullName,
+                        icon: Image.asset(
+                          ImagePath.fullNameIcon,
+                          height: 20.h,
+                          width: 20.w,
+                          color: AppColors.coolDarkGray,
+                        ),
+                        keyboardType: TextInputType.name,
+                        textController: signupProvider.nameController,
+                        errorText: provider.nameErrorText,
+                        onFieldChanged: (String text) {
+                          signupProvider.updateNameErrorText();
+                        },
+                      );
+                    },
                   ),
-                  SizedBox(height: 12.h),
-                  TextInputField(
-                    hintText: Strings.emailID,
-                    icon: Image.asset(
-                      ImagePath.emailIcon,
-                      height: 20.h,
-                      width: 20.w,
-                      color: AppColors.coolDarkGray.withOpacity(0.9),
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    textController: authProvider.newEmailController,
-                    onFieldChanged: (String text) {},
+                  SizedBox(height: 20.h),
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
+                      return TextInputField(
+                        hintText: Strings.emailID,
+                        icon: Image.asset(
+                          ImagePath.emailIcon,
+                          height: 20.h,
+                          width: 20.w,
+                          color: AppColors.coolDarkGray.withOpacity(0.9),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        textController: signupProvider.newEmailController,
+                        errorText: provider.emailErrorText,
+                        onFieldChanged: (String text) {
+                          signupProvider.updateEmailErrorText();
+                        },
+                      );
+                    },
                   ),
-                  SizedBox(height: 12.h),
-                  TextInputField(
-                    hintText: Strings.mobile,
-                    icon: Image.asset(
-                      ImagePath.callIcon,
-                      height: 20.h,
-                      width: 20.w,
-                      color: AppColors.coolDarkGray.withOpacity(0.9),
-                    ),
-                    keyboardType: TextInputType.phone,
-                    textController: authProvider.newMobileController,
-                    onFieldChanged: (String text) {},
+                  SizedBox(height: 20.h),
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
+                      return TextInputField(
+                        hintText: Strings.mobile,
+                        icon: Image.asset(
+                          ImagePath.callIcon,
+                          height: 20.h,
+                          width: 20.w,
+                          color: AppColors.coolDarkGray.withOpacity(0.9),
+                        ),
+                        keyboardType: TextInputType.phone,
+                        textController: signupProvider.newMobileController,
+                        errorText: provider.phoneErrorText,
+                        onFieldChanged: (String text) {
+                          signupProvider.updatePhoneErrorText();
+                        },
+                      );
+                    },
                   ),
                   SizedBox(height: 20.h),
                   TermsAndPrivacyAgreed(
@@ -90,12 +114,21 @@ class SignupScreen extends StatelessWidget {
                     onTermsTap: () {},
                   ),
                   SizedBox(height: 40.h),
-                  Consumer<AuthProvider>(
-                    builder: (BuildContext context, AuthProvider provider, _) {
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
                       return AppButton(
                         title: Strings.continueText,
+                        isLoading: signupProvider.isLoading,
                         onButtonTap: () {
-                          Navigator.pushNamed(context, AppRoutes.otpScreen);
+                          bool isValidated =
+                              signupProvider.onContinueButtonTap();
+                          if (isValidated) {
+                            if (context.mounted) {
+                              Navigator.pushNamed(
+                                  context, AppRoutes.createResetPasswordScreen);
+                            }
+                          }
                         },
                       );
                     },
@@ -106,7 +139,8 @@ class SignupScreen extends StatelessWidget {
                       Navigator.pushReplacementNamed(
                           context, AppRoutes.loginScreen);
                     },
-                  )
+                  ),
+                  SizedBox(height: 20.h),
                 ],
               ),
             ),

@@ -5,32 +5,21 @@ import 'package:orchestrate/core/responsive/size_extension.dart';
 import 'package:orchestrate/core/routes/app_routes.dart';
 import 'package:orchestrate/core/themes/app_colors.dart';
 import 'package:orchestrate/core/themes/app_text_styles.dart';
-import 'package:orchestrate/features/authentication/controllers/auth_provider.dart';
+import 'package:orchestrate/features/authentication/controllers/signup_provider.dart';
 import 'package:orchestrate/features/authentication/widgets/resend_code.dart';
 import 'package:orchestrate/widgets/appbar/common_appbar.dart';
 import 'package:orchestrate/widgets/buttons/app_button.dart';
 import 'package:orchestrate/widgets/input_fields/otp_input_field.dart';
 import 'package:provider/provider.dart';
 
-class OTPScreen extends StatefulWidget {
+class OTPScreen extends StatelessWidget {
   const OTPScreen({super.key});
 
   @override
-  State<OTPScreen> createState() => _OTPScreenState();
-}
-
-class _OTPScreenState extends State<OTPScreen> {
-  late final AuthProvider authProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    authProvider = Provider.of<AuthProvider>(context, listen: false);
-    authProvider.startTimer();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final SignupProvider signupProvider =
+        Provider.of<SignupProvider>(context, listen: false);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: AppColors.pureWhite,
@@ -48,13 +37,15 @@ class _OTPScreenState extends State<OTPScreen> {
                 children: [
                   CommonAppBar(
                     onBackButtonTap: () {
-                      authProvider.otpTimer.cancel();
-                      authProvider.otpController.clear();
+                      signupProvider.otpTimer.cancel();
+                      signupProvider.otpController.clear();
+                      signupProvider.updateOTPErrorText();
+                      signupProvider.updateOTPVerifyErrorText();
                       Navigator.of(context).pop();
                     },
                   ),
                   SizedBox(
-                    height: 248.h,
+                    height: 300.h,
                     child: Center(
                       child: Image.asset(ImagePath.otpGraphics),
                     ),
@@ -66,22 +57,51 @@ class _OTPScreenState extends State<OTPScreen> {
                   SizedBox(height: 20.h),
                   Text(Strings.codeSentMessage,
                       style: AppTextStyles.f16w600CoolDarkGray),
-                  Text('+91 9724533085',
+                  Text('+91 ${signupProvider.newMobileController.text}',
                       style: AppTextStyles.f16w600CoolDarkGray),
                   SizedBox(height: 40.h),
-                  OTPInputField(
-                    pinController: authProvider.otpController,
-                    errorText: "",
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
+                      return OTPInputField(
+                        pinLength: 6,
+                        showErrorState:
+                            (provider.otpErrorText ?? "").isNotEmpty,
+                        pinController: signupProvider.otpController,
+                        errorText: provider.otpErrorText,
+                        onFieldChanged: (String code) {
+                          signupProvider.updateOTPErrorText();
+                          signupProvider.updateOTPVerifyErrorText();
+                        },
+                      );
+                    },
                   ),
-                  SizedBox(height: 114.h),
-                  Consumer<AuthProvider>(
-                    builder: (BuildContext context, AuthProvider provider, _) {
+                  SizedBox(height: 100.h),
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
+                      return SizedBox(
+                        height: 20.h,
+                        child: Text(
+                          provider.otpVerifyErrorText ?? '',
+                          style: AppTextStyles.f12w600Black
+                              .copyWith(color: AppColors.fireRed),
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 8.h),
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
                       return AppButton(
                         title: Strings.verify,
+                        isLoading: provider.isLoading,
                         onButtonTap: () async {
-                          await authProvider.onOTPVerifyButtonTap();
-                          if (context.mounted) {
-                            provider.isCreatePassword
+                          bool verified =
+                              await signupProvider.onOTPVerifyButtonTap();
+                          if (context.mounted && verified) {
+                            provider.isRegisterUser
                                 ? Navigator.pushNamed(
                                     context, AppRoutes.roleSelectionScreen)
                                 : Navigator.pushNamed(context,
@@ -92,17 +112,18 @@ class _OTPScreenState extends State<OTPScreen> {
                     },
                   ),
                   SizedBox(height: 40.h),
-                  Consumer<AuthProvider>(
-                    builder: (BuildContext context, AuthProvider provider, _) {
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
                       return ResendCode(
                         timerSecond: provider.timerSecond,
                         onResendTap: () {
-                          authProvider.startTimer();
+                          signupProvider.startTimer();
                         },
                       );
                     },
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 20.h),
                 ],
               ),
             ),

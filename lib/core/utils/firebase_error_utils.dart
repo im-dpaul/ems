@@ -17,7 +17,7 @@ class FirebaseErrorUtils {
       case 'wrong-password':
       case 'INVALID_LOGIN_CREDENTIALS':
       case 'invalid-credential':
-        return "Incorrect password. Please try again.";
+        return "Invalid credential. Please try again.";
 
       case 'too-many-requests':
         return "Too many failed attempts. Try again later.";

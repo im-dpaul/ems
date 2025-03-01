@@ -7,12 +7,16 @@ class InputValidators {
     return emailRegex.hasMatch(email);
   }
 
-  /// Phone Number Validation (10-15 digits, allows `+` for international format)
-  static bool isValidPhoneNumber(String phone) {
-    final phoneRegex = RegExp(
-      r'^\+?[0-9]{10,15}$',
-    );
-    return phoneRegex.hasMatch(phone);
+  /// Validates a 10-digit mobile number (Only numbers allowed)
+  static bool isValidMobileNumber(String number) {
+    final RegExp mobileRegex = RegExp(r'^[0-9]{10}$');
+    return mobileRegex.hasMatch(number);
+  }
+
+  /// Validates a 6-digit OTP (Only numbers allowed)
+  static bool isValidOtp(String otp) {
+    final RegExp otpRegex = RegExp(r'^[0-9]{6}$');
+    return otpRegex.hasMatch(otp);
   }
 
   /// Name Validation (Allows only letters, spaces, and min 2 chars)

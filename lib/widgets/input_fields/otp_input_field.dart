@@ -10,6 +10,7 @@ class OTPInputField extends StatelessWidget {
   final Widget? cursor;
   final String? errorText;
   final Color? cursorColor;
+  final bool? showErrorState;
   final bool? enableSuggestions;
   final bool? enableAutoValidator;
   final TextStyle? errorTextStyle;
@@ -30,6 +31,7 @@ class OTPInputField extends StatelessWidget {
     this.cursorColor,
     this.keyboardType,
     this.errorTextStyle,
+    this.showErrorState,
     this.enableSuggestions,
     this.enableAutoValidator,
     this.closeKeyboardWhenCompleted,
@@ -54,6 +56,7 @@ class OTPInputField extends StatelessWidget {
     );
 
     return Pinput(
+      forceErrorState: showErrorState ?? true,
       errorText: errorText,
       length: pinLength ?? 4,
       enabled: enabled ?? true,
