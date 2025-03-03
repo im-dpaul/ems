@@ -1,13 +1,13 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:orchestrate/core/services/app_firebase_auth.dart';
+import 'package:orchestrate/core/services/firebase_auth_service.dart';
 
 class AuthRepository {
   Future<User?> loginUser(
       {required String email, required String password}) async {
     try {
-      User? user = await AppFirebaseAuth()
+      User? user = await FirebaseAuthService()
           .signInWithEmail(email: email, password: password);
 
       log("User Logged In: ${user?.email}");
@@ -21,7 +21,7 @@ class AuthRepository {
   Future<User?> registerUser(
       {required String email, required String password}) async {
     try {
-      User? user = await AppFirebaseAuth()
+      User? user = await FirebaseAuthService()
           .signUpWithEmail(email: email, password: password);
 
       log("User Registered: ${user?.email}");
@@ -34,7 +34,7 @@ class AuthRepository {
 
   Future<void> sendResetPasswordLink({required String email}) async {
     try {
-      await AppFirebaseAuth().sendPasswordResetEmail(email);
+      await FirebaseAuthService().sendPasswordResetEmail(email);
     } catch (e) {
       log("Password Reset Failed: $e");
       rethrow;
@@ -48,7 +48,7 @@ class AuthRepository {
     required void Function(PhoneAuthCredential) verificationCompleted,
   }) async {
     try {
-      await AppFirebaseAuth().verifyPhoneNumber(
+      await FirebaseAuthService().verifyPhoneNumber(
         phoneNumber: phoneNumber,
         codeSent: (String verificationId, int? resendToken) {
           log("OTP Sent. Verification ID: $verificationId");
@@ -72,7 +72,7 @@ class AuthRepository {
   Future<User?> verifyOtp(
       {required String verificationId, required String otp}) async {
     try {
-      User? user = await AppFirebaseAuth().verifyOtp(
+      User? user = await FirebaseAuthService().verifyOtp(
         verificationId: verificationId,
         otp: otp,
       );
@@ -88,7 +88,7 @@ class AuthRepository {
 
   Future<void> logoutUser() async {
     try {
-      await AppFirebaseAuth().signOut();
+      await FirebaseAuthService().signOut();
       log("User Logged Out");
     } catch (e) {
       log("Sign Out Failed: $e");

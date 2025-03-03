@@ -83,15 +83,33 @@ class RoleSelectionScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(height: 100.h),
+                  SizedBox(height: 72.h),
+                  Consumer<SignupProvider>(
+                    builder:
+                        (BuildContext context, SignupProvider provider, _) {
+                      return SizedBox(
+                        height: 20.h,
+                        child: Text(
+                          provider.finishErrorText ?? '',
+                          style: AppTextStyles.f12w600Black
+                              .copyWith(color: AppColors.fireRed),
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 8.h),
                   Consumer<SignupProvider>(
                     builder:
                         (BuildContext context, SignupProvider provider, _) {
                       return AppButton(
                         title: Strings.finish,
-                        onButtonTap: () {
-                          Navigator.pushReplacementNamed(
-                              context, AppRoutes.homeScreen);
+                        isLoading: provider.isLoading,
+                        onButtonTap: () async {
+                          bool success = await signupProvider.onFinishTap();
+                          if (success && context.mounted) {
+                            Navigator.pushReplacementNamed(
+                                context, AppRoutes.homeScreen);
+                          }
                         },
                       );
                     },

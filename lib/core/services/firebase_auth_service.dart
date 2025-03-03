@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:orchestrate/core/utils/try_catch_handler.dart';
 
-class AppFirebaseAuth {
-  static final AppFirebaseAuth _instance = AppFirebaseAuth._internal();
+class FirebaseAuthService {
+  static final FirebaseAuthService _instance = FirebaseAuthService._internal();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  AppFirebaseAuth._internal();
-  factory AppFirebaseAuth() {
+  FirebaseAuthService._internal();
+  factory FirebaseAuthService() {
     return _instance;
   }
 

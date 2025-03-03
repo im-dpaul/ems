@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:orchestrate/core/constants/app_enums.dart';
 import 'package:orchestrate/core/constants/strings.dart';
+import 'package:orchestrate/core/models/user_model.dart';
+import 'package:orchestrate/core/repository/user_repository.dart';
 import 'package:orchestrate/core/utils/firebase_error_utils.dart';
 import 'package:orchestrate/core/utils/input_validators.dart';
 import 'package:orchestrate/features/authentication/repository/auth_repository.dart';
@@ -13,7 +15,10 @@ class SignupProvider with ChangeNotifier {
   bool isLoading = false;
   bool isRegisterUser = true;
 
+  User? registerdUser;
+
   final AuthRepository _authRepository = AuthRepository();
+  final UserRepository _userRepository = UserRepository();
 
   // ------------------------ Signup Screen ------------------------
 
@@ -50,6 +55,8 @@ class SignupProvider with ChangeNotifier {
   TextEditingController otpController = TextEditingController();
 
   // ------------------------ Role Selection Screen ------------------------
+
+  String? finishErrorText;
 
   UserType userType = UserType.user;
 
@@ -188,6 +195,7 @@ class SignupProvider with ChangeNotifier {
         if ((user?.uid ?? "").isNotEmpty) {
           registered = true;
           log("User: $user");
+          registerdUser = user;
         }
       }
     } catch (e) {
@@ -240,7 +248,7 @@ class SignupProvider with ChangeNotifier {
   }
 
   void _onVerificationFailed(FirebaseAuthException error) {
-    String msg = FirebaseErrorUtils.getFirebaseErrorMessage(error.code);
+    String msg = FirebaseErrorUtils.getAuthErrorMessage(error.code);
     updateOTPVerifyErrorText(message: msg);
   }
 
@@ -274,8 +282,51 @@ class SignupProvider with ChangeNotifier {
 
   // ------------------------ Role Selection Screen ------------------------
 
+  void updateFinishErrorText({String? message}) {
+    finishErrorText = message;
+    notifyListeners();
+  }
+
   void setUserType(UserType role) {
     userType = role;
     notifyListeners();
+  }
+
+  Future<bool> _addUser() async {
+    final String userId = registerdUser?.uid ?? "";
+    final String name = nameController.text;
+    final String email = registerdUser?.email ?? "";
+    final String phoneNumber = newMobileController.text;
+    final bool isAdmin = userType == UserType.admin;
+
+    UserModel user = UserModel(
+      userId: userId,
+      name: name,
+      phoneNumber: phoneNumber,
+      email: email,
+      isAdmin: isAdmin,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+
+    try {
+      await _userRepository.createUser(user);
+      return true;
+    } catch (e) {
+      updateFinishErrorText(message: e.toString());
+    }
+    return false;
+  }
+
+  Future<bool> onFinishTap() async {
+    isLoading = true;
+    notifyListeners();
+
+    bool userCreated = false;
+    userCreated = await _addUser();
+
+    isLoading = false;
+    notifyListeners();
+    return userCreated;
   }
 }

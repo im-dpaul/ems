@@ -1,6 +1,6 @@
 class FirebaseErrorUtils {
   /// Maps Firebase Authentication error codes to user-friendly messages
-  static String getFirebaseErrorMessage(String code) {
+  static String getAuthErrorMessage(String code) {
     switch (code) {
       case 'invalid-email':
       case 'auth/invalid-email':
@@ -63,6 +63,26 @@ class FirebaseErrorUtils {
 
       default:
         return "An unknown error occurred. Please try again.";
+    }
+  }
+
+  /// Maps Firestore Errors to User-Friendly Messages
+  static String getFirestoreErrorMessage(String code) {
+    switch (code) {
+      case 'permission-denied':
+        return "You don't have permission to access this data.";
+      case 'not-found':
+        return "Requested document does not exist.";
+      case 'already-exists':
+        return "This data already exists.";
+      case 'unavailable':
+        return "Firestore service is temporarily unavailable.";
+      case 'cancelled':
+        return "Operation was cancelled.";
+      case 'data-loss':
+        return "Data loss detected. Please try again.";
+      default:
+        return "An unexpected Firestore error occurred";
     }
   }
 }

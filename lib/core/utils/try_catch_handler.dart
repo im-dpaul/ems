@@ -12,14 +12,17 @@ class TryCatchHandler {
     try {
       return await function();
     } on FirebaseAuthException catch (e) {
-      log("FirebaseAuthException: ${e.code} - ${e.message}");
+      log("🔥 FirebaseAuthException: ${e.code} - ${e.message}");
+      onError(FirebaseErrorUtils.getAuthErrorMessage(e.code));
 
-      onError(FirebaseErrorUtils.getFirebaseErrorMessage(e.code));
+      return null;
+    } on FirebaseException catch (e) {
+      log("🔥 FirebaseException: ${e.code} - ${e.message}");
+      onError(FirebaseErrorUtils.getFirestoreErrorMessage(e.code));
 
       return null;
     } on AuthException catch (e) {
-      log("Auth Error: ${e.code} - ${e.message}");
-
+      log("🔥 Auth Error: ${e.code} - ${e.message}");
       onError(e.message);
 
       return null;
